@@ -53,7 +53,12 @@
     .appbar .steps{ order:2; flex-basis:100%; justify-content:flex-start; gap:8px; font-size:11px; }
     .steps .dash{ width:18px; }
   }
-  @media(max-width:560px){ .steps .st:not(.active) .label-txt{ } }
+  @media(max-width:560px){
+    /* compacte le stepper : on ne garde que le libellé de l'étape active */
+    .steps .st:not(.active) .label-txt{ display:none; }
+    .appbar .steps{ gap:6px; }
+    .steps .st{ gap:5px; }
+  }
 
   /* ---------- layout 2 colonnes ---------- */
   .body{ display:grid; grid-template-columns:1fr minmax(380px,42%); align-items:start; }
@@ -62,10 +67,15 @@
   aside.summary{ position:sticky; top:var(--headh); height:calc(100vh - var(--headh)); overflow-y:auto; background:#faf8f4; border-left:1px solid var(--line); padding:30px 34px; }
 
   @media(max-width:768px){
-    .body{ display:flex; flex-direction:column; }
+    .body{ display:flex; flex-direction:column; align-items:stretch; }
     /* récap : pleine largeur, en haut, non collant (header de hauteur variable) */
     aside.summary{ order:-1; position:static; width:100%; height:auto; max-height:none; overflow:visible; border-left:0; border-bottom:1px solid var(--line); padding:0; }
-    .content{ padding:22px 18px 40px; }
+    /* contenu en bloc pleine largeur (pas de centrage ni de max-width sur mobile) */
+    .content{ display:block; padding:22px 16px 40px; }
+    .content-inner{ max-width:none; width:100%; }
+    /* CTA et champs en pleine largeur, marge 16px de part et d'autre */
+    .cta-narrow{ width:100%; max-width:none; }
+    .actions{ align-items:stretch; }
   }
 
   /* ---------- summary (sidebar / barre mobile) ---------- */
@@ -329,6 +339,8 @@
     font-size: 12px;
     letter-spacing: .04em;
   }
+  /* note "calculé à l'étape suivante" : bas de casse + italique */
+  .calc-note{ text-transform:none; font-style:italic; letter-spacing:normal; }
 
   /* Liens : minuscules, 12px, couleur #17120f */
   .linkbtn, .coffret-item__edit, .forgot, .editline, .sum-totals .tr a {
@@ -592,9 +604,9 @@ document.getElementById('logo').innerHTML = `<svg role="img" aria-label="ba&amp;
 
 /* ===== Icônes sociales ===== */
 const SOC = {
-  google:'<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M12 11v3h4.3c-.2 1.1-1.3 3.2-4.3 3.2A4.7 4.7 0 1 1 12 7.6c1.4 0 2.4.6 3 1.1l2-2A7.5 7.5 0 1 0 12 19.5c4.3 0 7.2-3 7.2-7.3 0-.5 0-.8-.1-1.2H12z"/></svg>',
-  paypal:'<svg viewBox="0 0 24 24"><path fill="#003087" d="M7 21l1.5-9h4.2c2.3 0 3.8-1.6 3.8-3.7C16.5 6 15 5 12.8 5H7.2L4 21z"/><path fill="#009CDE" d="M16.5 8.3c.3 2-.9 3.7-3.3 3.7H9.6L8.5 19h2.4l.6-3.4h2c2.7 0 4.5-1.7 4.8-4.2.1-1.4-.6-2.5-1.8-3.1z"/></svg>',
-  apple:'<svg viewBox="0 0 24 24" fill="#000"><path d="M17 12c0-2 1.6-3 1.7-3.1-.9-1.3-2.4-1.5-2.9-1.5-1.2-.1-2.4.7-3 .7s-1.6-.7-2.6-.7c-1.3 0-2.6.8-3.3 2-1.4 2.4-.4 6 1 8 .7.9 1.5 2 2.5 2 1-.1 1.4-.7 2.6-.7s1.5.7 2.6.6c1.1 0 1.8-1 2.4-1.9.8-1.1 1.1-2.2 1.1-2.3 0 0-2.1-.8-2.2-3.1zM15 5.6c.5-.7.9-1.6.8-2.6-.8 0-1.8.6-2.4 1.3-.5.6-.9 1.5-.8 2.4.9.1 1.8-.4 2.4-1.1z"/></svg>'
+  google:'<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.6015 12.2281C21.6023 11.5467 21.5447 10.8664 21.4293 10.1949H11.999V14.0461H17.4002C17.2897 14.6612 17.0558 15.2476 16.7125 15.7698C16.3693 16.2921 15.9239 16.7394 15.4031 17.0849V19.5848H18.6266C20.514 17.8446 21.6015 15.2711 21.6015 12.2281Z" fill="#4285F4"/><path d="M11.9989 22C14.6974 22 16.9696 21.1139 18.6264 19.5862L15.4029 17.0863C14.5057 17.6946 13.3502 18.0418 11.9989 18.0418C9.39064 18.0418 7.17682 16.2835 6.38518 13.9142H3.06445V16.4905C3.89674 18.1466 5.17296 19.5389 6.75064 20.5118C8.32831 21.4847 10.1453 21.9999 11.9989 22Z" fill="#34A853"/><path d="M6.38551 13.9141C5.967 12.6726 5.967 11.328 6.38551 10.0865V7.51016H3.06479C2.36464 8.90339 2 10.441 2 12.0003C2 13.5595 2.36464 15.0972 3.06479 16.4904L6.38551 13.9141Z" fill="#FBBC04"/><path d="M11.9989 5.95886C13.4249 5.93556 14.8029 6.47437 15.8349 7.45881L18.6889 4.60474C16.8792 2.9049 14.4816 1.97166 11.9989 2.00066C10.1453 2.00074 8.32832 2.51599 6.75064 3.48889C5.17296 4.46179 3.89674 5.85403 3.06445 7.5102L6.38518 10.0865C7.17682 7.71714 9.39064 5.95886 11.9989 5.95886Z" fill="#EA4335"/></svg>',
+  paypal:'<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.4179 6.73936C18.2926 6.70291 18.1634 6.66977 18.0309 6.63995C17.8976 6.61079 17.7611 6.58494 17.6206 6.56241C17.1288 6.48288 16.59 6.4451 16.0128 6.4451H11.1402C11.0202 6.4451 10.9062 6.47227 10.8042 6.52132C10.5795 6.62935 10.4125 6.84209 10.372 7.10255L9.33549 13.6678L9.30566 13.8594C9.37393 13.4272 9.74308 13.1091 10.1812 13.1091H12.0051C15.5873 13.1091 18.3921 11.6544 19.2119 7.44586C19.2364 7.32126 19.257 7.19998 19.2755 7.08135C19.0681 6.97133 18.8434 6.87722 18.6015 6.79702C18.5418 6.77714 18.4802 6.75792 18.4179 6.73936Z" fill="#222D65"/><path d="M19.2754 7.08133C19.2569 7.19996 19.2357 7.32125 19.2118 7.44585C18.392 11.655 15.5872 13.1091 12.005 13.1091H10.1811C9.74299 13.1091 9.37383 13.4272 9.30557 13.8593L8.37175 19.7817L8.10731 21.4605C8.0629 21.7442 8.28161 22 8.56792 22H11.8028C12.1859 22 12.5113 21.7216 12.5716 21.3438L12.6034 21.1795L13.2125 17.3143L13.2516 17.1022C13.3113 16.7231 13.6373 16.4448 14.0204 16.4448H14.5042C17.6384 16.4448 20.0919 15.1723 20.809 11.49C21.1086 9.95173 20.9535 8.66731 20.1609 7.76397C19.9209 7.49158 19.6234 7.26558 19.2754 7.08133Z" fill="#179BD7"/><path d="M10.3717 7.10256C10.4122 6.8421 10.5792 6.62935 10.8039 6.52199C10.9066 6.47294 11.0199 6.44577 11.1399 6.44577H16.0125C16.5897 6.44577 17.1285 6.48355 17.6203 6.56308C17.7608 6.58561 17.8973 6.61146 18.0305 6.64062C18.1631 6.67044 18.2923 6.70358 18.4176 6.74003C18.4799 6.75859 18.5415 6.77781 18.6018 6.79703C18.8438 6.87722 19.0684 6.972 19.2759 7.08135C19.5198 5.52586 19.2739 4.46678 18.4328 3.50777C17.5056 2.452 15.8322 2 13.6908 2H7.47416C7.03674 2 6.66361 2.31812 6.59601 2.7509L4.00662 19.1641C3.95559 19.4888 4.20611 19.7818 4.53351 19.7818H8.37154L9.33518 13.6678L10.3717 7.10256Z" fill="#253B80"/></svg>',
+  apple:'<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2504 5.46162C16.0135 4.52977 16.5313 3.27858 16.3947 2C15.2776 2.05423 13.9145 2.7195 13.1253 3.65208C12.4166 4.45069 11.7895 5.75428 11.953 6.97925C13.2069 7.08545 14.4597 6.36732 15.2504 5.46162Z" fill="black"/><path d="M16.3801 7.21828C14.559 7.11237 13.0106 8.22732 12.141 8.22732C11.2709 8.22732 9.93914 7.27164 8.49877 7.2974C6.62404 7.32428 4.88452 8.35914 3.93317 10.0051C1.97642 13.2977 3.41679 18.1818 5.31962 20.8635C6.24368 22.1902 7.35734 23.651 8.82474 23.5985C10.2112 23.5454 10.7546 22.7221 12.4399 22.7221C14.124 22.7221 14.6135 23.5985 16.0811 23.572C17.6031 23.5454 18.5546 22.2446 19.4787 20.9166C20.5387 19.4042 20.9727 17.9439 21 17.8637C20.9727 17.8372 18.0652 16.7482 18.0382 13.483C18.0108 10.7489 20.3209 9.44844 20.4297 9.36779C19.1251 7.48405 17.0867 7.27164 16.3801 7.21828Z" fill="black"/></svg>'
 };
 document.querySelectorAll('[data-soc]').forEach(e=> e.innerHTML = SOC[e.dataset.soc]);
 const GIFT='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M3 12h18M12 8v13"/><path d="M12 8S10 3 7.5 4 9 8 12 8zM12 8s2-5 4.5-4-1.5 4-4.5 4z"/></svg>';
@@ -617,7 +629,7 @@ function renderSummary(){
   const totals = state.step>=2 ? `
     <div class="sum-totals">
       <div class="tr"><span>Sous-total</span><span>95,00 €</span></div>
-      <div class="tr"><span>Livraison</span><span>${state.shipping?'2,30 €':"Calculé à l'étape suivante"}</span></div>
+      <div class="tr"><span>Livraison</span><span>${state.shipping?'2,30 €':"<span class=\"calc-note\">Calculé à l'étape suivante</span>"}</span></div>
       <div class="tr"><span>Code promo</span><a href="#" onclick="return false">Ajouter</a></div>
     </div>` : '';
   c.innerHTML = `
@@ -644,7 +656,10 @@ function setStep(n){
   document.getElementById('appbar').classList.toggle('confirm', state.screen==='confirmation');
 }
 let navHist=[];
+const isMobile = ()=> window.matchMedia('(max-width:768px)').matches;
 function go(id, opts={}){
+  // Desktop : l'écran "Votre cadeau est prêt" est redondant (recap toujours visible à droite) → on saute au login
+  if(id==='ready' && !isMobile()){ id='login'; opts = Object.assign({}, opts, {step:2}); }
   if(!opts.back && state.screen && state.screen!==id) navHist.push({screen:state.screen, step:state.step});
   state.screen = id;
   screens.forEach(s=> s.classList.toggle('active', s.dataset.screen===id));
@@ -654,6 +669,8 @@ function go(id, opts={}){
   renderSummary();
   // lien retour : dès qu'il y a un écran précédent (sauf 1er écran et confirmation)
   document.getElementById('backLink').classList.toggle('show', id!=='confirmation' && id!=='pack' && navHist.length>0);
+  // Mobile : sur l'écran "Votre cadeau est prêt", on ouvre le recap pour permettre la validation avant de finaliser
+  if(id==='ready' && isMobile()){ document.getElementById('summary').classList.add('open'); }
   window.scrollTo({top:0});
   document.querySelector('.content').scrollTop = 0;
 }
