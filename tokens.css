@@ -1,0 +1,40 @@
+/* ============================================================
+   BASH (ba&sh) — Design Tokens
+   Généré depuis bash_css_design_tokens.json
+   Style : premium fashion, minimal noir/blanc, tons chauds, bordures fines.
+   Remplace les tokens Qomit pour le checkout en marque Bash.
+   ============================================================ */
+:root{
+  /* ---------- Couleurs (semantic) ---------- */
+  --bash-black:        #000000;
+  --bash-ink:          #1b1916;   /* near-black chaud */
+  --bash-white:        #ffffff;
+  --bash-warm-white:   #fcf9f4;
+  --bash-bg-warm:      #f6f1eb;   /* fond beige chaud */
+  --bash-beige:        #d8cebf;
+  --bash-border:       #e7eaed;   /* bordure fine claire */
+  --bash-border-2:     #bebebe;
+  --bash-muted:        #8f8f8f;   /* texte secondaire */
+  --bash-grey:         #687282;
+  --bash-navy:         #00112c;
+  --bash-payment-blue: #0075ff;
+  --bash-promo:        #fb4b2e;   /* orange promo */
+  --bash-success:      #089a43;
+  --bash-error:        #c12424;
+
+  /* ---------- Typographies (BashTodo) ---------- */
+  --bash-font-body:  "BashTodo", Arial, Helvetica, sans-serif;       /* corps */
+  --bash-font-bold:  "BashTodoBold", "BashTodo", Arial, sans-serif;  /* nav, labels forts */
+  --bash-font-black: "BashTodoBlack", "BashTodo", Arial, sans-serif; /* titres, emphase */
+  --bash-font-thin:  "BashTodoThin", "BashTodo", Arial, sans-serif;  /* texte secondaire */
+
+  /* ---------- Alias consommés par les composants / le checkout ---------- */
+  --type-family-body:    var(--bash-font-body);
+  --type-family-display: var(--bash-font-black);
+  --type-family-bold:    var(--bash-font-bold);
+
+  /* ---------- Rayons (Bash = anguleux, bordures fines) ---------- */
+  --radius-default: 2px;
+  --radius-medium:  4px;
+  --border-thin:    1px;
+}
