@@ -134,8 +134,8 @@
   /* Boutons = .Button Bash (capitales, letter-spacing .1rem, padding 1.2/4.5rem, 1px border, angles droits) */
   .cta{
     display:inline-flex; align-items:center; justify-content:center;
-    width:100%; height:auto;
-    padding:1.2rem 4.5rem;
+    width:100%; height:48px;
+    padding:0 4.5rem;
     font-family:var(--ff-body);
     font-size:1.2rem;
     text-transform:uppercase;
@@ -201,28 +201,41 @@
   .howto h3{ font-size:15px; font-weight:600; margin-bottom:5px; }
   .howto p{ font-size:14px; color:var(--muted); }
 
-  /* ---------- forms ---------- */
-  .form{ margin-top:22px; display:flex; flex-direction:column; gap:12px; }
+  /* ---------- forms (style ligne soulignée, label au-dessus, bas de casse) ---------- */
+  .form{ margin-top:26px; display:flex; flex-direction:column; gap:32px; }
   .inp{ position:relative; }
-  .inp>label{ position:absolute; top:9px; left:15px; font-size:11.5px; color:var(--muted); }
-  .inp input,.inp select{ width:100%; height:58px; border:1px solid var(--line-2); border-radius:var(--r-sm); padding:22px 15px 8px; font-size:15px; background:#fff; color:var(--ink); }
-  .inp.simple input{ height:56px; padding:0 15px; }
-  .inp input:focus,.inp select:focus,.msgcard textarea:focus{ outline:none; border-color:var(--ink); box-shadow:0 0 0 3px rgba(17,20,24,.07); }
-  .inp.filled input{ background:#f4f7ff; border-color:#cdd9f0; }
-  .inp.filled select{ background-color:#f4f7ff; border-color:#cdd9f0; }
-  .inp select{ appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a9099' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; }
-  .inp .eye{ position:absolute; right:14px; top:50%; transform:translateY(-50%); background:none;border:0;color:var(--ink-2); }
-  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .row-zip{ display:grid; grid-template-columns:1.4fr 1fr; gap:12px; }
-  .civilite{ display:flex;align-items:center;justify-content:space-between; border:1px solid var(--line-2); border-radius:var(--r-sm); height:56px; padding:0 15px; }
-  .civilite .opts{ display:flex; gap:18px; }
-  .civilite label{ display:flex;align-items:center;gap:6px; font-size:14px; color:var(--ink-2); }
-  .civilite input{ accent-color:var(--ink); }
-  .phone-inp{ display:flex;align-items:center; border:1px solid var(--line-2); border-radius:var(--r-sm); height:56px; padding:0 14px; gap:10px; }
-  .phone-inp .flag{ display:flex;align-items:center;gap:4px; font-size:15px; }
-  .phone-inp input{ border:0; flex:1; height:100%; font-size:15px; }
+  /* label flottant : au repos 16px et proche du filet ; à la saisie/focus -1px et remonte un peu */
+  .inp>label{ position:static; display:block; font-size:12px; color:var(--ink); margin-bottom:7px; letter-spacing:normal; text-transform:none; font-weight:400; transform:translateY(10px); transform-origin:left bottom; transition:transform .18s ease, font-size .18s ease; }
+  .inp:has(input:focus)>label,
+  .inp:has(input:not(:placeholder-shown))>label,
+  .inp.filled>label,
+  .inp:has(select)>label{ font-size:11px; transform:translateY(-5px); }
+  .inp>label .req{ margin-left:6px; color:var(--ink); }
+  .inp input,.inp select{ width:100%; height:auto; border:0; border-bottom:1px solid var(--ink); border-radius:0; padding:7px 0; font-size:16px; background:transparent; color:var(--ink); }
+  .inp input::placeholder{ color:var(--muted); }
+  .inp.simple input{ height:auto; padding:7px 0; }
+  .inp input:focus,.inp select:focus,.msgcard textarea:focus{ outline:none; border-bottom-color:var(--ink); box-shadow:none; }
+  .inp.filled input,.inp.filled select{ background:transparent; border-color:var(--ink); }
+  .inp select{ appearance:none; padding-right:26px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23212529' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 0 center; }
+  .inp-row{ position:relative; }
+  .inp .eye{ position:absolute; right:0; bottom:6px; background:none; border:0; color:var(--ink); padding:0; cursor:pointer; }
+  .field-note{ font-size:13px; color:var(--muted); margin-top:11px; line-height:1.45; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .row-zip{ display:grid; grid-template-columns:1.4fr 1fr; gap:24px; }
+  /* civilité : radios ronds (M. / Mme) sans encadré */
+  .civilite{ display:flex; align-items:center; gap:48px; border:0; border-radius:0; height:auto; padding:0; }
+  .civilite .opts{ display:flex; gap:48px; }
+  .civilite label{ display:flex; align-items:center; gap:11px; font-size:17px; color:var(--ink); cursor:pointer; letter-spacing:normal; text-transform:none; }
+  .civilite input[type=radio]{ appearance:none; -webkit-appearance:none; width:22px; height:22px; margin:0; border:1.5px solid #c7c7c7; border-radius:50%; position:relative; flex:none; }
+  .civilite input[type=radio]:checked{ border-color:var(--ink); }
+  .civilite input[type=radio]:checked::after{ content:""; position:absolute; inset:4px; border-radius:50%; background:var(--ink); }
+  /* téléphone : indicatif pays + numéro, deux segments soulignés */
+  .phone-inp{ display:flex; align-items:flex-end; gap:18px; border:0; border-radius:0; height:auto; padding:0; }
+  .phone-inp .cc{ display:flex; align-items:center; gap:8px; font-size:16px; color:var(--ink); border-bottom:1px solid var(--ink); padding:7px 0; min-width:120px; cursor:pointer; }
+  .phone-inp .cc .flag{ font-size:18px; line-height:1; }
+  .phone-inp .cc svg{ margin-left:auto; }
+  .phone-inp input{ border:0; border-bottom:1px solid var(--ink); border-radius:0; flex:1; height:auto; padding:7px 0; font-size:16px; background:transparent; }
   .phone-inp input:focus{ outline:none; }
-  .phone-inp .help{ color:var(--muted); }
   .check{ display:flex;align-items:center;gap:10px; font-size:14px; color:var(--ink-2); padding:4px 0; cursor:pointer; }
   .check input{ width:20px;height:20px; accent-color:var(--ink); }
   .or{ display:flex;align-items:center;gap:14px; color:var(--muted); font-size:13px; margin:22px 0 18px; }
@@ -324,15 +337,13 @@
   .coffret-item__t, .coffret-item__edit,
   .sum-total > span:first-child,
   .sum-toggle .l,
-  .civilite, .civilite label,
   .ship-card__head, .ship-opt__main .t,
   .pay-method__head .name,
   .bill h4,
   .toggle, .cgv, .secure,
-  .forgot, .linkbtn,
+  .linkbtn,
   .howto h3,
   .promo button,
-  .inp > label,
   .msgtools .ai-label,
   .order-block .k {
     text-transform: uppercase;
@@ -445,7 +456,7 @@
         <h1 class="h">Bonjour,</h1>
         <p class="sub">Saisissez un e-mail pour continuer</p>
         <div class="form">
-          <div class="inp simple"><input type="email" id="loginEmail" placeholder="Adresse email*" autocomplete="email" /></div>
+          <div class="inp"><label>Adresse e-mail <span class="req">*</span></label><input type="email" id="loginEmail" autocomplete="email" placeholder=" "></div>
           <button class="cta" id="loginContinue">Continuer</button>
         </div>
         <div class="or">Ou continuer avec</div>
@@ -457,8 +468,10 @@
         <h1 class="h">Bonjour,</h1>
         <p class="sub">Vous avez déjà un compte Qomit. Entrez votre mot de passe pour continuer.</p>
         <div class="form">
-          <div class="inp filled"><label>Adresse email*</label><input type="email" value="j.durand@gmail.com" readonly /></div>
-          <div class="inp filled"><label>Password</label><input type="password" id="pwInput" value="motdepasse123" /><button class="eye" type="button" id="pwEye"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+          <div class="inp filled"><label>Adresse e-mail <span class="req">*</span></label><input type="email" value="j.durand@gmail.com" readonly placeholder=" "></div>
+          <div class="inp"><label>Mot de passe <span class="req">*</span></label><div class="inp-row"><input type="password" id="pwInput" value="motdepasse123" placeholder=" "><button class="eye" type="button" id="pwEye"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M6.61 6.61A18.45 18.45 0 0 0 2 12s3 8 10 8a9.12 9.12 0 0 0 5.39-1.61"/><path d="M2 2l20 20"/></svg></button></div>
+            <p class="field-note">Veuillez saisir un mot de passe de 8 caractères minimum, avec une majuscule et une minuscule.</p>
+          </div>
           <div class="forgot">Mot de passe oublié ?</div>
           <button class="cta" data-go="delivery" data-ship="1">Se connecter</button>
           <button class="cta cta--ghost" data-go="informations">Continuer en tant qu'invité</button>
@@ -470,15 +483,18 @@
         <h1 class="h">Vos informations</h1>
         <p class="sub">Saisissez vos informations pour continuer</p>
         <div class="form">
-          <div class="inp filled"><label>Adresse email*</label><input type="email" value="jeanne@gmail.com" /></div>
-          <div class="civilite"><span style="font-size:14px;color:var(--muted)">Civilité*</span><span class="opts"><label><input type="radio" name="civ1"> M.</label><label><input type="radio" name="civ1"> Mme.</label><label><input type="radio" name="civ1"> Autre</label></span></div>
-          <div class="inp simple"><input placeholder="Prénom*"></div>
-          <div class="inp simple"><input placeholder="Nom*"></div>
-          <div class="inp simple"><input placeholder="Adresse*"></div>
-          <div class="inp simple"><input placeholder="Bâtiment, étage, entreprise (facultatif)"></div>
-          <div class="row-zip"><div class="inp simple"><input placeholder="Code postal*" inputmode="numeric"></div><div class="inp simple"><input placeholder="Ville*"></div></div>
-          <div class="inp filled"><label>Pays*</label><select><option>France</option><option>Belgique</option><option>Suisse</option></select></div>
-          <div class="phone-inp"><span class="flag">🇫🇷 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span><input placeholder="Phone number* (ex: 06 83 24 53 23)" inputmode="tel"><span class="help"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg></span></div>
+          <div class="civilite"><span class="opts"><label><input type="radio" name="civ1"> M.</label><label><input type="radio" name="civ1" checked> Mme</label></span></div>
+          <div class="inp"><label>Prénom <span class="req">*</span></label><input placeholder=" "></div>
+          <div class="inp"><label>Nom <span class="req">*</span></label><input placeholder=" "></div>
+          <div class="inp filled"><label>Adresse e-mail <span class="req">*</span></label><input type="email" value="jeanne@gmail.com" placeholder=" "></div>
+          <div class="inp"><label>Adresse <span class="req">*</span></label><input placeholder=" "></div>
+          <div class="inp"><label>Bâtiment, étage, entreprise</label><input placeholder=" "></div>
+          <div class="row-zip"><div class="inp"><label>Code postal <span class="req">*</span></label><input inputmode="numeric" placeholder=" "></div><div class="inp"><label>Ville <span class="req">*</span></label><input placeholder=" "></div></div>
+          <div class="inp filled"><label>Pays <span class="req">*</span></label><select><option>France</option><option>Belgique</option><option>Suisse</option></select></div>
+          <div class="inp"><label>Téléphone <span class="req">*</span></label>
+            <div class="phone-inp"><span class="cc"><span class="flag">🇫🇷</span> +33 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span><input inputmode="tel" placeholder=" "></div>
+            <p class="field-note">Pour faciliter votre livraison, veuillez renseigner votre numéro de téléphone.</p>
+          </div>
           <label class="check"><input type="checkbox" checked> Adresse de facturation identique</label>
           <button class="cta" data-go="delivery">Continuer vers la livraison</button>
         </div>
@@ -489,15 +505,18 @@
         <h1 class="h">Adresse du destinataire</h1>
         <p class="sub">À qui souhaitez-vous envoyer ce cadeau ?</p>
         <div class="form">
-          <div class="inp simple"><input type="email" placeholder="Email du destinataire*"></div>
-          <div class="civilite"><span style="font-size:14px;color:var(--muted)">Civilité*</span><span class="opts"><label><input type="radio" name="civ2"> M.</label><label><input type="radio" name="civ2"> Mme.</label><label><input type="radio" name="civ2"> Autre</label></span></div>
-          <div class="inp simple"><input placeholder="Prénom du destinataire*"></div>
-          <div class="inp simple"><input placeholder="Nom du destinataire*"></div>
-          <div class="inp simple"><input placeholder="Adresse du destinataire*"></div>
-          <div class="inp simple"><input placeholder="Bâtiment, étage, entreprise (facultatif)"></div>
-          <div class="row-zip"><div class="inp simple"><input placeholder="Code postal*" inputmode="numeric"></div><div class="inp simple"><input placeholder="Ville*"></div></div>
-          <div class="inp filled"><label>Pays*</label><select><option>France</option><option>Belgique</option></select></div>
-          <div class="phone-inp"><span class="flag">🇫🇷 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span><input placeholder="Numéro du destinataire*" inputmode="tel"><span class="help"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg></span></div>
+          <div class="civilite"><span class="opts"><label><input type="radio" name="civ2"> M.</label><label><input type="radio" name="civ2" checked> Mme</label></span></div>
+          <div class="inp"><label>Prénom du destinataire <span class="req">*</span></label><input placeholder=" "></div>
+          <div class="inp"><label>Nom du destinataire <span class="req">*</span></label><input placeholder=" "></div>
+          <div class="inp"><label>Adresse e-mail du destinataire <span class="req">*</span></label><input type="email" placeholder=" "></div>
+          <div class="inp"><label>Adresse du destinataire <span class="req">*</span></label><input placeholder=" "></div>
+          <div class="inp"><label>Bâtiment, étage, entreprise</label><input placeholder=" "></div>
+          <div class="row-zip"><div class="inp"><label>Code postal <span class="req">*</span></label><input inputmode="numeric" placeholder=" "></div><div class="inp"><label>Ville <span class="req">*</span></label><input placeholder=" "></div></div>
+          <div class="inp filled"><label>Pays <span class="req">*</span></label><select><option>France</option><option>Belgique</option></select></div>
+          <div class="inp"><label>Téléphone du destinataire <span class="req">*</span></label>
+            <div class="phone-inp"><span class="cc"><span class="flag">🇫🇷</span> +33 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span><input inputmode="tel" placeholder=" "></div>
+            <p class="field-note">Pour faciliter la livraison, veuillez renseigner le numéro du destinataire.</p>
+          </div>
         </div>
         <h2 class="sec-title">Mode de livraison</h2>
         <div class="ship-card">
@@ -768,7 +787,11 @@ document.getElementById('useMessage').addEventListener('click',()=>{ const sel=d
 
 /* ===== Login branche ===== */
 document.getElementById('loginContinue').addEventListener('click',()=>{ const v=(document.getElementById('loginEmail').value||'').trim().toLowerCase(); go(v==='j.durand@gmail.com'?'password':'informations',{step:2}); });
-document.getElementById('pwEye').addEventListener('click',()=>{ const i=document.getElementById('pwInput'); i.type=i.type==='password'?'text':'password'; });
+document.getElementById('pwEye').addEventListener('click',function(){ const i=document.getElementById('pwInput'); const hidden=i.type==='password'; i.type=hidden?'text':'password';
+  this.innerHTML = hidden
+    ? '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>'
+    : '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M6.61 6.61A18.45 18.45 0 0 0 2 12s3 8 10 8a9.12 9.12 0 0 0 5.39-1.61"/><path d="M2 2l20 20"/></svg>';
+});
 
 /* ===== Paiement ===== */
 document.querySelectorAll('[data-pay]').forEach(m=> m.addEventListener('click', e=>{ if(e.target.closest('input,button,a'))return; document.querySelectorAll('[data-pay]').forEach(x=>x.classList.remove('sel')); m.classList.add('sel'); }));
